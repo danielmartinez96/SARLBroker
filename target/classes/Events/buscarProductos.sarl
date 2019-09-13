@@ -7,4 +7,10 @@ package Events
  * @author Daniel
  * 
  */
-event buscarProductos
+event buscarProductos{
+	var codigo: String
+	
+	new(c:String){
+		codigo=c
+	}
+}

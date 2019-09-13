@@ -13,6 +13,9 @@ import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import Events.solicitudPed
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Schedules
+import Events.buscarProductos
 
 /** 
  * @author Daniel
@@ -20,6 +23,8 @@ import Events.solicitudPed
  */
 agent Broker {
 	uses Logging
+	uses DefaultContextInteractions
+	uses Schedules
 
 	on Initialize {
 		println("-----------------------")
@@ -30,5 +35,15 @@ agent Broker {
 
 	on solicitudPed{
 		println("Quiere un "+occurrence.codigo+" papu.")
+		buscarProd(occurrence.codigo)
 	}
+	
+	def buscarProd(c:String) {
+		if (defaultSpace.participants.size > 3) {
+			emit(new buscarProductos(c))
+		} else {
+			in(2000)[buscarProd(c)]
+		}
+	}
+	
 }

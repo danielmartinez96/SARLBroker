@@ -12,7 +12,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
-
+import Events.buscarProductos
 /** 
  * @author Daniel
  * 
@@ -20,12 +20,15 @@ import io.sarl.core.MemberLeft
 agent Proveedor {
 	uses Logging
 
+	
 	on Initialize {
-		// Event trigger before the agent begin to live or to be used.
-		// You should put all the initialization statements in this block of code.
-		info("The agent was started.")
+		
 	}
 
+	
+	on buscarProductos {
+		
+	}
 	
 	on Destroy {
 		// Event trigger when the agent is destroyed from the system.

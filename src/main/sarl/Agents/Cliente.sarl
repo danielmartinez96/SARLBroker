@@ -36,7 +36,6 @@ agent Cliente {
 	def solicitarProduct(c: String){
 		if(defaultSpace.participants.size>1){
 			emit(new solicitudPed(c))
-			
 		}else{
 			in(3000)[solicitarProduct(c)]
 		}
