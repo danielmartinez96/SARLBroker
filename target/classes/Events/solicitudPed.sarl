@@ -1,0 +1,15 @@
+/** 
+ * 
+ */
+package Events
+
+/** 
+ * @author Daniel
+ * 
+ */
+event solicitudPed{
+	var codigo: String
+	new (c: String){
+		codigo=c
+	}
+}

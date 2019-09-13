@@ -1,0 +1,44 @@
+/** 
+ * 
+ */
+package Agents
+
+import io.sarl.core.AgentKilled
+import io.sarl.core.AgentSpawned
+import io.sarl.core.ContextJoined
+import io.sarl.core.ContextLeft
+import io.sarl.core.Destroy
+import io.sarl.core.Initialize
+import io.sarl.core.Logging
+import io.sarl.core.MemberJoined
+import io.sarl.core.MemberLeft
+import io.sarl.core.DefaultContextInteractions
+import Events.solicitudPed
+import io.sarl.core.Schedules
+
+/** 
+ * @author Daniel
+ * 
+ */
+agent Cliente {
+	uses Logging
+	uses DefaultContextInteractions
+	uses Schedules
+
+	on Initialize {
+		println("--------------")
+		println("Soy el salteño con sueldo de pansante.")
+		println("Vieja apareci y acabo de cobrar el aumento y estoy bien arrecho.")
+		in(2000)[solicitarProduct("Fernet")]
+		println("--------------")
+	}
+
+	def solicitarProduct(c: String){
+		if(defaultSpace.participants.size>1){
+			emit(new solicitudPed(c))
+			
+		}else{
+			in(3000)[solicitarProduct(c)]
+		}
+	}
+}

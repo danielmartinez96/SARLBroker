@@ -1,0 +1,10 @@
+/** 
+ * 
+ */
+package Events
+
+/** 
+ * @author Daniel
+ * 
+ */
+event buscarProductos

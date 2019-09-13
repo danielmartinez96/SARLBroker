@@ -12,23 +12,20 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
-import Events.solicitudPed
+import io.sarl.core.Lifecycle
 
 /** 
  * @author Daniel
  * 
  */
-agent Broker {
+agent BootAgents {
 	uses Logging
+	uses Lifecycle
 
 	on Initialize {
-		println("-----------------------")
-		println("Soy mercado libre con ganas de hacerte la guita.")
-		println("Listo para ganar platita")
-		println("-----------------------")
+		spawn(Cliente)
+		spawn(Broker)
 	}
 
-	on solicitudPed{
-		println("Quiere un "+occurrence.codigo+" papu.")
-	}
+
 }
