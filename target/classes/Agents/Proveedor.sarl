@@ -13,21 +13,32 @@ import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import Events.buscarProductos
+import Objects.Product
+import io.sarl.core.DefaultContextInteractions
+import Events.Bid
+
 /** 
  * @author Daniel
  * 
  */
 agent Proveedor {
 	uses Logging
-
+	uses DefaultContextInteractions
 	
-	on Initialize {
+	var productos: Product[]
+	@SuppressWarnings("java_style_type_cast")
+	on Initialize{
+		productos= occurrence.parameters as Product[]
 		
 	}
+	
+
 
 	
 	on buscarProductos {
-		
+		for(p:productos){
+			if(p.getCodigo() == occurrence.codigo) emit(new Bid(p.getPrecio(),p.getEnvio()))
+		}
 	}
 	
 	on Destroy {

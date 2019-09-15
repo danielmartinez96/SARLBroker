@@ -1,0 +1,19 @@
+/** 
+ * 
+ */
+package Events
+
+/** 
+ * @author Daniel
+ * 
+ */
+event Bid{
+	var precio: float
+	var envio: float
+	var total:float
+	new(p:float,e:float){
+		precio=p
+		envio=e
+		total= p+e
+	}
+}

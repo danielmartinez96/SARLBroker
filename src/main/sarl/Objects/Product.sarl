@@ -1,0 +1,32 @@
+/** 
+ * 
+ */
+package Objects
+
+/** 
+ * @author Daniel
+ * 
+ */
+class Product extends Object {
+	var codigo: String
+	var precio: float
+	var envio:float
+
+	
+	new (c: String,p: float,e:float){
+		codigo=c
+		precio=p
+		envio=e
+	} 
+	def getCodigo{
+		return codigo
+	}
+	
+	def getPrecio{
+		return precio
+	}
+	
+	def getEnvio{
+		return envio
+	}
+}

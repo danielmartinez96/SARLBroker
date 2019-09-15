@@ -13,6 +13,7 @@ import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import io.sarl.core.Lifecycle
+import Objects.Product
 
 /** 
  * @author Daniel
@@ -23,8 +24,15 @@ agent BootAgents {
 	uses Lifecycle
 
 	on Initialize {
+		var p1 = #[new Product("Fernet", 200, 50),new Product("Vino", 100, 30)]
+		var p2 = #[new Product("Fernet", 300, 50), new Product("Vino", 80, 30)]
+	
+		
 		spawn(Cliente)
 		spawn(Broker)
+		
+		spawn(Proveedor, p1)
+		spawn(Proveedor, p2)
 	}
 
 

@@ -16,6 +16,8 @@ import Events.solicitudPed
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
 import Events.buscarProductos
+import java.util.UUID
+import Events.Bid
 
 /** 
  * @author Daniel
@@ -26,6 +28,9 @@ agent Broker {
 	uses DefaultContextInteractions
 	uses Schedules
 
+	var idAgente: UUID=null
+	var mejorPrecio:float=0
+	
 	on Initialize {
 		println("-----------------------")
 		println("Soy mercado libre con ganas de hacerte la guita.")
@@ -44,6 +49,14 @@ agent Broker {
 		} else {
 			in(2000)[buscarProd(c)]
 		}
+		
+		in(10000) emit(new )
 	}
+	
+	on Bid{		
+		if(occurrence.total>this.mejorPrecio) mejorPrecio= occurrence.total
+		
+	}
+	
 	
 }
