@@ -1,7 +1,10 @@
 package Agents;
 
 import Events.Bid;
+import Events.buscarProductos;
+import Events.sendProposal;
 import Events.solicitudPed;
+import io.sarl.core.AgentTask;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
 import io.sarl.core.Logging;
@@ -23,6 +26,7 @@ import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -48,16 +52,38 @@ public class Broker extends Agent {
     this.buscarProd(occurrence.codigo);
   }
   
-  protected void buscarProd(final String c) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nno viable alternative at input \')\'"
-      + "\nType mismatch: cannot convert implicit first argument from Broker to long"
-      + "\nType mismatch: cannot convert from int to Procedure1<? super Agent>");
+  protected AgentTask buscarProd(final String c) {
+    AgentTask _xblockexpression = null;
+    {
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      int _size = _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.getDefaultSpace().getParticipants().size();
+      if ((_size > 3)) {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        buscarProductos _buscarProductos = new buscarProductos(c);
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_buscarProductos);
+      } else {
+        Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
+        final Procedure1<Agent> _function = (Agent it) -> {
+          this.buscarProd(c);
+        };
+        _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(2000, _function);
+      }
+      Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER_1 = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
+      final Procedure1<Agent> _function_1 = (Agent it) -> {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        sendProposal _sendProposal = new sendProposal(this.mejorPrecio);
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_2.emit(_sendProposal);
+      };
+      _xblockexpression = _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER_1.in(10000, _function_1);
+    }
+    return _xblockexpression;
   }
   
   private void $behaviorUnit$Bid$2(final Bid occurrence) {
-    if ((occurrence.total > this.mejorPrecio)) {
-      this.mejorPrecio = occurrence.total;
+    float total = (occurrence.precio + occurrence.envio);
+    if ((total > this.mejorPrecio)) {
+      this.mejorPrecio = total;
+      this.idAgente = occurrence.getSource().getUUID();
     }
   }
   

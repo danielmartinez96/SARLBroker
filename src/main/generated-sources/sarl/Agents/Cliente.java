@@ -1,5 +1,6 @@
 package Agents;
 
+import Events.sendProposal;
 import Events.solicitudPed;
 import io.sarl.core.AgentTask;
 import io.sarl.core.DefaultContextInteractions;
@@ -62,6 +63,10 @@ public class Cliente extends Agent {
     return _xifexpression;
   }
   
+  private void $behaviorUnit$sendProposal$1(final sendProposal occurrence) {
+    InputOutput.<String>println(("Precio: " + Float.valueOf(occurrence.mejorPrecio)));
+  }
+  
   @Extension
   @ImportedCapacityFeature(Logging.class)
   @SyntheticMember
@@ -113,6 +118,14 @@ public class Cliente extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$sendProposal(final sendProposal occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$sendProposal$1(occurrence));
   }
   
   @SyntheticMember

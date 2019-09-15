@@ -13,14 +13,11 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class Bid extends Event {
-  public float precio;
+public class sendProposal extends Event {
+  public float mejorPrecio;
   
-  public float envio;
-  
-  public Bid(final float p, final float e) {
-    this.precio = p;
-    this.envio = e;
+  public sendProposal(final float mp) {
+    this.mejorPrecio = mp;
   }
   
   @Override
@@ -33,10 +30,8 @@ public class Bid extends Event {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Bid other = (Bid) obj;
-    if (Float.floatToIntBits(other.precio) != Float.floatToIntBits(this.precio))
-      return false;
-    if (Float.floatToIntBits(other.envio) != Float.floatToIntBits(this.envio))
+    sendProposal other = (sendProposal) obj;
+    if (Float.floatToIntBits(other.mejorPrecio) != Float.floatToIntBits(this.mejorPrecio))
       return false;
     return super.equals(obj);
   }
@@ -47,22 +42,20 @@ public class Bid extends Event {
   public int hashCode() {
     int result = super.hashCode();
     final int prime = 31;
-    result = prime * result + Float.floatToIntBits(this.precio);
-    result = prime * result + Float.floatToIntBits(this.envio);
+    result = prime * result + Float.floatToIntBits(this.mejorPrecio);
     return result;
   }
   
   /**
-   * Returns a String representation of the Bid event's attributes only.
+   * Returns a String representation of the sendProposal event's attributes only.
    */
   @SyntheticMember
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
-    builder.add("precio", this.precio);
-    builder.add("envio", this.envio);
+    builder.add("mejorPrecio", this.mejorPrecio);
   }
   
   @SyntheticMember
-  private static final long serialVersionUID = -2138085740L;
+  private static final long serialVersionUID = 803750144L;
 }

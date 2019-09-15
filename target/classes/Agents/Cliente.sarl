@@ -14,7 +14,9 @@ import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import io.sarl.core.DefaultContextInteractions
 import Events.solicitudPed
+import Events.sendProposal
 import io.sarl.core.Schedules
+
 
 /** 
  * @author Daniel
@@ -39,5 +41,10 @@ agent Cliente {
 		}else{
 			in(3000)[solicitarProduct(c)]
 		}
+	}
+	
+	on sendProposal{
+		
+		println("Precio: "+occurrence.mejorPrecio)
 	}
 }

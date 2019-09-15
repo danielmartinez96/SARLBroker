@@ -18,6 +18,7 @@ import io.sarl.core.Schedules
 import Events.buscarProductos
 import java.util.UUID
 import Events.Bid
+import Events.sendProposal
 
 /** 
  * @author Daniel
@@ -50,12 +51,16 @@ agent Broker {
 			in(2000)[buscarProd(c)]
 		}
 		
-		in(10000) emit(new )
+		in(10000)[emit(new sendProposal(mejorPrecio))]
 	}
 	
+	
 	on Bid{		
-		if(occurrence.total>this.mejorPrecio) mejorPrecio= occurrence.total
-		
+		var total = occurrence.precio+occurrence.envio
+		if(total>this.mejorPrecio){
+		 mejorPrecio= total
+		 idAgente= occurrence.getSource().getUUID()
+		}
 	}
 	
 	

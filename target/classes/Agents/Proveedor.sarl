@@ -16,6 +16,7 @@ import Events.buscarProductos
 import Objects.Product
 import io.sarl.core.DefaultContextInteractions
 import Events.Bid
+import java.util.List
 
 /** 
  * @author Daniel
@@ -25,15 +26,11 @@ agent Proveedor {
 	uses Logging
 	uses DefaultContextInteractions
 	
-	var productos: Product[]
+	var productos: List<Product>
 	@SuppressWarnings("java_style_type_cast")
 	on Initialize{
-		productos= occurrence.parameters as Product[]
-		
+		productos = occurrence.parameters.get(0) as List<Product>
 	}
-	
-
-
 	
 	on buscarProductos {
 		for(p:productos){
@@ -41,37 +38,4 @@ agent Proveedor {
 		}
 	}
 	
-	on Destroy {
-		// Event trigger when the agent is destroyed from the system.
-		// You should put all the resource releasing statements in this block of code.
-		info("The agent was stopped.")
-	}
-
-	on AgentSpawned {
-		// A new agent has been spawned in our context.
-	}
-
-	on AgentKilled {
-		// A new agent has been killed in our context.
-	}
-
-	on ContextJoined {
-		// Event trigger when an agent of the level joins a shared context.
-		// Sent to a agent of the same level.
-	}
-
-	on ContextLeft {
-		// Event trigger when an agent of the level jleaves a shared context.
-		// Sent to a agent of the same level.
-	}
-
-	on MemberJoined {
-		// Event trigger when an agent joins one of our shared super-holons.
-		// Sent to all members of the considered super-holon.
-	}
-
-	on MemberLeft {
-		// Event trigger when an agent leaves one of our shared super-holons.
-		// Sent to all members of the considered super-holon.
-	}
 }

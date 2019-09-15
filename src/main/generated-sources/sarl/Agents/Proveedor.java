@@ -1,17 +1,12 @@
 package Agents;
 
+import Events.Bid;
 import Events.buscarProductos;
 import Objects.Product;
-import io.sarl.core.AgentKilled;
-import io.sarl.core.AgentSpawned;
-import io.sarl.core.ContextJoined;
-import io.sarl.core.ContextLeft;
+import com.google.common.base.Objects;
 import io.sarl.core.DefaultContextInteractions;
-import io.sarl.core.Destroy;
 import io.sarl.core.Initialize;
 import io.sarl.core.Logging;
-import io.sarl.core.MemberJoined;
-import io.sarl.core.MemberLeft;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
@@ -23,6 +18,7 @@ import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -36,39 +32,26 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(19)
 @SuppressWarnings("all")
 public class Proveedor extends Agent {
-  private Product[] productos;
+  private List<Product> productos;
   
   @SuppressWarnings("java_style_type_cast")
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    this.productos = ((Product[]) occurrence.parameters);
+    Object _get = occurrence.parameters[0];
+    this.productos = ((List<Product>) _get);
   }
   
   private void $behaviorUnit$buscarProductos$1(final buscarProductos occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from Bid to Event");
-  }
-  
-  private void $behaviorUnit$Destroy$2(final Destroy occurrence) {
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was stopped.");
-  }
-  
-  private void $behaviorUnit$AgentSpawned$3(final AgentSpawned occurrence) {
-  }
-  
-  private void $behaviorUnit$AgentKilled$4(final AgentKilled occurrence) {
-  }
-  
-  private void $behaviorUnit$ContextJoined$5(final ContextJoined occurrence) {
-  }
-  
-  private void $behaviorUnit$ContextLeft$6(final ContextLeft occurrence) {
-  }
-  
-  private void $behaviorUnit$MemberJoined$7(final MemberJoined occurrence) {
-  }
-  
-  private void $behaviorUnit$MemberLeft$8(final MemberLeft occurrence) {
+    for (final Product p : this.productos) {
+      String _codigo = p.getCodigo();
+      boolean _equals = Objects.equal(_codigo, occurrence.codigo);
+      if (_equals) {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        float _precio = p.getPrecio();
+        float _envio = p.getEnvio();
+        Bid _bid = new Bid(_precio, _envio);
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_bid);
+      }
+    }
   }
   
   @Extension
@@ -111,66 +94,10 @@ public class Proveedor extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$ContextLeft(final ContextLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$6(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$ContextJoined(final ContextJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$5(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$MemberLeft(final MemberLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$8(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$AgentSpawned(final AgentSpawned occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentSpawned$3(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
   private void $guardEvaluator$buscarProductos(final buscarProductos occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$buscarProductos$1(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$Destroy(final Destroy occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Destroy$2(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$AgentKilled(final AgentKilled occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentKilled$4(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$MemberJoined(final MemberJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$7(occurrence));
   }
   
   @Override

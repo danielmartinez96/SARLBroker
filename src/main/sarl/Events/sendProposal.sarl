@@ -1,0 +1,15 @@
+/** 
+ * 
+ */
+package Events
+
+/** 
+ * @author Daniel
+ * 
+ */
+event sendProposal{
+	var mejorPrecio: float
+	new(mp:float){
+		mejorPrecio=mp
+	}
+}
