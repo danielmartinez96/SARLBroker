@@ -1,0 +1,17 @@
+/** 
+ * 
+ */
+package Events
+
+import Objects.Product
+
+/** 
+ * @author Daniel
+ * 
+ */
+event selectProduct{
+	var product : Product
+	new (p: Product){
+		this.product = p
+	}
+}

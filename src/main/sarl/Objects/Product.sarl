@@ -29,4 +29,8 @@ class Product extends Object {
 	def getEnvio{
 		return envio
 	}
+	
+	def getTotal{
+		return envio+precio
+	}
 }

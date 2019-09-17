@@ -15,10 +15,11 @@ import io.sarl.core.MemberLeft
 import Events.solicitudPed
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
-import Events.buscarProductos
 import java.util.UUID
-import Events.Bid
-import Events.sendProposal
+import Events.*
+import java.util.List
+import Objects.Product
+import java.util.HashMap
 
 /** 
  * @author Daniel
@@ -29,18 +30,16 @@ agent Broker {
 	uses DefaultContextInteractions
 	uses Schedules
 
-	var idAgente: UUID=null
-	var mejorPrecio:float=0
-	
+	var productos : HashMap<Product, UUID> = newHashMap()
 	on Initialize {
 		println("-----------------------")
-		println("Soy mercado libre con ganas de hacerte la guita.")
-		println("Listo para ganar platita")
+		println("Soy mercado libre")
+
 		println("-----------------------")
 	}
 
 	on solicitudPed{
-		println("Quiere un "+occurrence.codigo+" papu.")
+		println("Quiere un "+occurrence.codigo)
 		buscarProd(occurrence.codigo)
 	}
 	
@@ -51,17 +50,48 @@ agent Broker {
 			in(2000)[buscarProd(c)]
 		}
 		
-		in(10000)[emit(new sendProposal(mejorPrecio))]
+		in(10000)[emit(new sendProposal(productos.keySet().toList()))]
+	}
+
+	on Bid {	
+		
+		 evaluatePrice(occurrence.producto, occurrence.getSource().getUUID())
+		   	
+	}
+
+	synchronized def evaluatePrice(producto : Product,id:UUID) {
+		
+				var b = true
+				
+				println(id +" antes "+productos)
+				
+				for (p : productos.keySet()) {
+					if (p.getCodigo() == producto.getCodigo() &&
+						producto.getTotal() <= p.getTotal()) {						
+						productos.remove(p)
+						productos.put(producto, id)
+					} else if (p.getCodigo() == producto.getCodigo()) {
+						b = false
+					}
+				}
+				
+				
+				if (b) {
+					productos.put(producto, id)
+				}
+				
+			    println(id + " despues " + productos)
+	
 	}
 	
 	
-	on Bid{		
-		var total = occurrence.precio+occurrence.envio
-		if(total>this.mejorPrecio){
-		 mejorPrecio= total
-		 idAgente= occurrence.getSource().getUUID()
-		}
+	
+	on selectProduct{
+		emit(new acceptProposal(productos.get(occurrence.product), occurrence.product.codigo))
 	}
 	
+	on deliver{
+		emit(new giveTrackingCode(occurrence.trackingCode))
+	}
 	
 }

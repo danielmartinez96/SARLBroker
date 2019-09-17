@@ -3,13 +3,18 @@
  */
 package Events
 
+import java.util.UUID
+import Objects.Product
+import java.util.List
+
 /** 
  * @author Daniel
  * 
  */
 event sendProposal{
-	var mejorPrecio: float
-	new(mp:float){
-		mejorPrecio=mp
+	
+	var productos: List<Product>
+	new(productos : List<Product>) {
+		this.productos= productos
 	}
 }

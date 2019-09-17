@@ -1,7 +1,10 @@
 package Agents;
 
+import Events.giveTrackingCode;
+import Events.selectProduct;
 import Events.sendProposal;
 import Events.solicitudPed;
+import Objects.Product;
 import io.sarl.core.AgentTask;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -18,6 +21,7 @@ import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
+import java.util.Random;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -35,8 +39,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 public class Cliente extends Agent {
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     InputOutput.<String>println("--------------");
-    InputOutput.<String>println("Soy el salteño con sueldo de pansante.");
-    InputOutput.<String>println("Vieja apareci y acabo de cobrar el aumento y estoy bien arrecho.");
+    InputOutput.<String>println("Soy el un cliente");
     Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
     final Procedure1<Agent> _function = (Agent it) -> {
       this.solicitarProduct("Fernet");
@@ -64,7 +67,31 @@ public class Cliente extends Agent {
   }
   
   private void $behaviorUnit$sendProposal$1(final sendProposal occurrence) {
-    InputOutput.<String>println(("Precio: " + Float.valueOf(occurrence.mejorPrecio)));
+    InputOutput.<String>println("Productos:");
+    int c = 0;
+    for (final Product p : occurrence.productos) {
+      {
+        c++;
+        String _plus = (Integer.valueOf(c) + " Nombre: ");
+        String _codigo = p.getCodigo();
+        InputOutput.<String>println((_plus + _codigo));
+        float _total = p.getTotal();
+        InputOutput.<String>println(("Precio total: " + Float.valueOf(_total)));
+      }
+    }
+    Random r = new Random();
+    int i = r.nextInt(occurrence.productos.size());
+    String _plus = (Integer.valueOf((i + 1)) + " Eleccion: ");
+    String _codigo = occurrence.productos.get(i).getCodigo();
+    InputOutput.<String>println((_plus + _codigo));
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    Product _get = occurrence.productos.get(i);
+    selectProduct _selectProduct = new selectProduct(_get);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_selectProduct);
+  }
+  
+  private void $behaviorUnit$giveTrackingCode$2(final giveTrackingCode occurrence) {
+    InputOutput.<String>println(("Mi Tracking code es:" + occurrence.trackingCode));
   }
   
   @Extension
@@ -118,6 +145,14 @@ public class Cliente extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$giveTrackingCode(final giveTrackingCode occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$giveTrackingCode$2(occurrence));
   }
   
   @SyntheticMember

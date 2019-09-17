@@ -40,6 +40,11 @@ public class Product {
     return this.envio;
   }
   
+  @Pure
+  public float getTotal() {
+    return (this.envio + this.precio);
+  }
+  
   @Override
   @Pure
   @SyntheticMember

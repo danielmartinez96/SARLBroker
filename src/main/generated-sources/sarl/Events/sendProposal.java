@@ -1,9 +1,11 @@
 package Events;
 
+import Objects.Product;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import io.sarl.lang.core.Event;
+import java.util.List;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
@@ -14,25 +16,16 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlElementType(15)
 @SuppressWarnings("all")
 public class sendProposal extends Event {
-  public float mejorPrecio;
+  public List<Product> productos;
   
-  public sendProposal(final float mp) {
-    this.mejorPrecio = mp;
+  public sendProposal(final List<Product> productos) {
+    this.productos = productos;
   }
   
   @Override
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    sendProposal other = (sendProposal) obj;
-    if (Float.floatToIntBits(other.mejorPrecio) != Float.floatToIntBits(this.mejorPrecio))
-      return false;
     return super.equals(obj);
   }
   
@@ -41,8 +34,6 @@ public class sendProposal extends Event {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Float.floatToIntBits(this.mejorPrecio);
     return result;
   }
   
@@ -53,9 +44,9 @@ public class sendProposal extends Event {
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
-    builder.add("mejorPrecio", this.mejorPrecio);
+    builder.add("productos", this.productos);
   }
   
   @SyntheticMember
-  private static final long serialVersionUID = 803750144L;
+  private static final long serialVersionUID = 2021820056L;
 }

@@ -1,0 +1,20 @@
+/** 
+ * 
+ */
+package Events
+
+import java.util.UUID
+
+/** 
+ * @author Daniel
+ * 
+ */
+event acceptProposal{
+	var id: UUID
+	var codigo: String
+	
+	new (id: UUID,codigo: String){
+		this.id=id
+		this.codigo = codigo
+	}
+}

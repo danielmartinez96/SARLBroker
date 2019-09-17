@@ -14,8 +14,11 @@ import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import io.sarl.core.DefaultContextInteractions
 import Events.solicitudPed
+import Events.giveTrackingCode
 import Events.sendProposal
+import Events.selectProduct
 import io.sarl.core.Schedules
+import java.util.Random
 
 
 /** 
@@ -29,8 +32,7 @@ agent Cliente {
 
 	on Initialize {
 		println("--------------")
-		println("Soy el salteño con sueldo de pansante.")
-		println("Vieja apareci y acabo de cobrar el aumento y estoy bien arrecho.")
+		println("Soy el un cliente")
 		in(2000)[solicitarProduct("Fernet")]
 		println("--------------")
 	}
@@ -43,8 +45,27 @@ agent Cliente {
 		}
 	}
 	
-	on sendProposal{
+	on sendProposal {
+		println("Productos:")	
+		var c=0
+		for (p : occurrence.productos) {
+			c++
+			println(c+" Nombre: " + p.getCodigo())
+			println("Precio total: " + p.getTotal())
+			
+		}
 		
-		println("Precio: "+occurrence.mejorPrecio)
+		var r = new Random();
+		var i = r.nextInt(occurrence.productos.size())
+		println((i+1)+" Eleccion: "+occurrence.productos.get(i).getCodigo())
+		
+		emit(new selectProduct(occurrence.productos.get(i)))
+			
 	}
+	
+	on giveTrackingCode{
+		println("Mi Tracking code es:"+ occurrence.trackingCode)
+	}
+	
+		
 }

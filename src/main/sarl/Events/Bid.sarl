@@ -3,17 +3,17 @@
  */
 package Events
 
+import Objects.Product
+
 /** 
  * @author Daniel
  * 
  */
 event Bid{
-	var precio: float
-	var envio: float
+	var producto: Product
 	
-	new(p:float,e:float){
-		precio=p
-		envio=e
-		
+	
+	new(p : Product) {
+		producto=p
 	}
 }

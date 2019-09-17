@@ -13,10 +13,13 @@ import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
 import Events.buscarProductos
+import Events.acceptProposal
 import Objects.Product
 import io.sarl.core.DefaultContextInteractions
-import Events.Bid
+import Events.*
 import java.util.List
+import io.sarl.core.Schedules
+import java.util.Random
 
 /** 
  * @author Daniel
@@ -25,17 +28,41 @@ import java.util.List
 agent Proveedor {
 	uses Logging
 	uses DefaultContextInteractions
+	uses Schedules
 	
 	var productos: List<Product>
+	
 	@SuppressWarnings("java_style_type_cast")
 	on Initialize{
 		productos = occurrence.parameters.get(0) as List<Product>
 	}
 	
 	on buscarProductos {
-		for(p:productos){
-			if(p.getCodigo() == occurrence.codigo) emit(new Bid(p.getPrecio(),p.getEnvio()))
+		var r = new Random()
+		
+		for (p : productos) {	 	
+		 if(p.getCodigo().contains(occurrence.codigo)) in(1000)[emit(new Bid(p))]
 		}
+	
+	}
+	
+	on acceptProposal [isMe(occurrence.id)] {
+		for (p : productos) {
+			if(p.getCodigo().equals(occurrence.codigo)) {
+				generarTrackingCode()
+			}
+		}
+	}
+	
+	def generarTrackingCode{
+		var rm = new Random()
+		var trackingcode= ""
+		
+		for (var i = 0; i < 20; i++) {
+			trackingcode += (rm.nextInt(91) + 65) as char
+		}
+		
+		emit(new deliver(trackingcode))
 	}
 	
 }

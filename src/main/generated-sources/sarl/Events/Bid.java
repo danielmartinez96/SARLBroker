@@ -1,5 +1,6 @@
 package Events;
 
+import Objects.Product;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -14,30 +15,16 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlElementType(15)
 @SuppressWarnings("all")
 public class Bid extends Event {
-  public float precio;
+  public Product producto;
   
-  public float envio;
-  
-  public Bid(final float p, final float e) {
-    this.precio = p;
-    this.envio = e;
+  public Bid(final Product p) {
+    this.producto = p;
   }
   
   @Override
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Bid other = (Bid) obj;
-    if (Float.floatToIntBits(other.precio) != Float.floatToIntBits(this.precio))
-      return false;
-    if (Float.floatToIntBits(other.envio) != Float.floatToIntBits(this.envio))
-      return false;
     return super.equals(obj);
   }
   
@@ -46,9 +33,6 @@ public class Bid extends Event {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Float.floatToIntBits(this.precio);
-    result = prime * result + Float.floatToIntBits(this.envio);
     return result;
   }
   
@@ -59,10 +43,9 @@ public class Bid extends Event {
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
-    builder.add("precio", this.precio);
-    builder.add("envio", this.envio);
+    builder.add("producto", this.producto);
   }
   
   @SyntheticMember
-  private static final long serialVersionUID = -2138085740L;
+  private static final long serialVersionUID = -65969499L;
 }

@@ -1,0 +1,16 @@
+/** 
+ * 
+ */
+package Events
+
+/** 
+ * @author Daniel
+ * 
+ */
+event deliver{
+	var trackingCode: String
+	
+	new(t:String){
+		trackingCode=t
+	}
+}
