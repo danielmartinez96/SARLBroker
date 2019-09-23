@@ -20,6 +20,7 @@ import Events.*
 import java.util.List
 import io.sarl.core.Schedules
 import java.util.Random
+import io.sarl.core.Lifecycle
 
 /** 
  * @author Daniel
@@ -29,6 +30,7 @@ agent Proveedor {
 	uses Logging
 	uses DefaultContextInteractions
 	uses Schedules
+	uses Lifecycle
 	
 	var productos: List<Product>
 	
@@ -41,7 +43,13 @@ agent Proveedor {
 		var r = new Random()
 		
 		for (p : productos) {	 	
-		 if(p.getCodigo().contains(occurrence.codigo)) in(1000)[emit(new Bid(p))]
+			
+		 if(p.getCodigo().contains(occurrence.codigo)) {
+		 	emit(new Bid(p))
+			//Thread::sleep(1000)
+		 	}
+		 	
+		 
 		}
 	
 	}

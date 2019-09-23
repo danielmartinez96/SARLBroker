@@ -66,4 +66,7 @@ public class acceptProposal extends Event {
     builder.add("id", this.id);
     builder.add("codigo", this.codigo);
   }
+  
+  @SyntheticMember
+  private static final long serialVersionUID = 2255584141L;
 }

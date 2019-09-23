@@ -20,6 +20,7 @@ import Events.*
 import java.util.List
 import Objects.Product
 import java.util.HashMap
+import io.sarl.lang.util.SynchronizedSet
 
 /** 
  * @author Daniel
@@ -55,32 +56,33 @@ agent Broker {
 
 	on Bid {	
 		
-		 evaluatePrice(occurrence.producto, occurrence.getSource().getUUID())
+		synchronized (this) {
+			var b = true
+
+			println(occurrence.getSource().getUUID().toString() + " antes " + productos)
+
+			for (p : productos.keySet()) {
+				if ((p.getCodigo() == occurrence.producto.getCodigo()) && (occurrence.producto.getTotal() <= p.getTotal())){
+					productos.remove(p)
+					productos.put(occurrence.producto, occurrence.getSource().getUUID())
+				} else if (p.getCodigo() == occurrence.producto.getCodigo()) {
+					b = false
+				}
+			}
+
+			if (b) {
+				productos.put(occurrence.producto, occurrence.getSource().getUUID())
+			}
+
+			println(occurrence.getSource().getUUID() + " despues " + productos)
+		}
+		// evaluatePrice(occurrence.producto, occurrence.getSource().getUUID())
 		   	
 	}
 
 	synchronized def evaluatePrice(producto : Product,id:UUID) {
-		
-				var b = true
-				
-				println(id +" antes "+productos)
-				
-				for (p : productos.keySet()) {
-					if (p.getCodigo() == producto.getCodigo() &&
-						producto.getTotal() <= p.getTotal()) {						
-						productos.remove(p)
-						productos.put(producto, id)
-					} else if (p.getCodigo() == producto.getCodigo()) {
-						b = false
-					}
-				}
-				
-				
-				if (b) {
-					productos.put(producto, id)
-				}
-				
-			    println(id + " despues " + productos)
+					
+			
 	
 	}
 	

@@ -88,24 +88,18 @@ public class Broker extends Agent {
   }
   
   private void $behaviorUnit$Bid$2(final Bid occurrence) {
-    this.evaluatePrice(occurrence.producto, occurrence.getSource().getUUID());
-  }
-  
-  protected synchronized String evaluatePrice(final Product producto, final UUID id) {
-    String _xblockexpression = null;
-    {
+    synchronized (this) {
       boolean b = true;
-      String _plus = (id + " antes ");
-      InputOutput.<String>println((_plus + this.productos));
+      String _string = occurrence.getSource().getUUID().toString();
+      InputOutput.<String>println(((_string + " antes ") + this.productos));
       Set<Product> _keySet = this.productos.keySet();
       for (final Product p : _keySet) {
-        if ((Objects.equal(p.getCodigo(), producto.getCodigo()) && 
-          (producto.getTotal() <= p.getTotal()))) {
+        if ((Objects.equal(p.getCodigo(), occurrence.producto.getCodigo()) && (occurrence.producto.getTotal() <= p.getTotal()))) {
           this.productos.remove(p);
-          this.productos.put(producto, id);
+          this.productos.put(occurrence.producto, occurrence.getSource().getUUID());
         } else {
           String _codigo = p.getCodigo();
-          String _codigo_1 = producto.getCodigo();
+          String _codigo_1 = occurrence.producto.getCodigo();
           boolean _equals = Objects.equal(_codigo, _codigo_1);
           if (_equals) {
             b = false;
@@ -113,12 +107,16 @@ public class Broker extends Agent {
         }
       }
       if (b) {
-        this.productos.put(producto, id);
+        this.productos.put(occurrence.producto, occurrence.getSource().getUUID());
       }
-      String _plus_1 = (id + " despues ");
-      _xblockexpression = InputOutput.<String>println((_plus_1 + this.productos));
+      UUID _uUID = occurrence.getSource().getUUID();
+      String _plus = (_uUID + " despues ");
+      InputOutput.<String>println((_plus + this.productos));
     }
-    return _xblockexpression;
+  }
+  
+  @Pure
+  protected synchronized void evaluatePrice(final Product producto, final UUID id) {
   }
   
   private void $behaviorUnit$selectProduct$3(final selectProduct occurrence) {
